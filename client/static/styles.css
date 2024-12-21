@@ -1,0 +1,119 @@
+body {
+   margin: 0;
+   font-family: Arial, sans-serif;
+   background-color: #FFE0EE;
+   color: #33592A;
+}
+
+.container {
+   padding: 20px;
+   text-align: center;
+}
+
+h1 {
+   color: #33592A;
+}
+
+button {
+   padding: 10px 20px;
+   font-size: 16px;
+   background-color: #33592A;
+   color: #FFFFFF;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+button:hover {
+   background-color: #27491E;
+}
+
+#event-container {
+   margin-top: 20px;
+}
+
+.modal {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   z-index: 1000;
+}
+
+.modal.hidden {
+   display: none;
+}
+
+.modal-content {
+   position: fixed;         
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   max-width: 90%;         
+   max-height: 80%;         
+   overflow-y: auto;        
+   padding: 20px;
+   background-color: white;
+   border-radius: 8px;
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+   z-index: 1000;
+}
+
+
+.modal-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 999;
+}
+
+label {
+   display: block;
+   margin-bottom: 10px;
+}
+
+input[type="text"] {
+   width: calc(100% - 20px);
+   padding: 8px;
+   margin-top: 5px;
+   border: 1px solid #CCCCCC;
+   border-radius: 5px;
+}
+
+#participants {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 5px;
+}
+
+.participant {
+   width: 150px;
+}
+
+.detail-row {
+   display: flex;
+   align-items: center;
+   margin-bottom: 10px;
+}
+
+.arrow {
+   margin: 0 10px;
+}
+
+.modal-actions {
+   text-align: right;
+   margin-top: 20px;
+}
+
+.modal-actions button {
+   margin-left: 10px;
+}
+

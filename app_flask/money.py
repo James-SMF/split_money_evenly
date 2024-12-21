@@ -138,36 +138,9 @@ class MoneySplitter:
 
         return True
 
-    def detailed_transaction(self, people_list, user_trans):
-       ut_list = user_trans.split()
-
-       if(user_trans=="q" or user_trans=="Q"):
-          return True
-
-       flag_transfer = flag_pay = False   # initialize
-       if(user_trans=="result" or user_trans=="Result" or user_trans=="R" or user_trans=="r"):
-          self.final_calculation()
-          return False
-
-       try:
-          flag_transfer = (ut_list[1].lower()=="t" or re.search("trans", ut_list[1]) or ut_list[1]=="->")
-          flag_pay = (ut_list[1].lower()=="p" or re.search("pay", ut_list[1]) or ut_list[1].lower()=="paid")
-       except:
-          self.color_print(Color.WARNING.value,"Please enter valid operations. (See README.md)")
-          return False
-
-       try:
-          if(flag_transfer):
-             transfer(ut_list[0], ut_list[2], ut_list[3])
-          elif(flag_pay):
-             pay(ut_list[0], ut_list[2], people_list)
-       except:
-          print(print_color(WARNONG,"Syntax error: please refer to README.md for detailed instructions."))
-
-       return False
-
     def run_splitter(self):
         self.file_input_mode()
+        return self.people_total
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:

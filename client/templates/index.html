@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>分账计算器</title>
+   <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+   <link rel="stylesheet" href="/static/styles.css?v=1">
+</head>
+<body>
+   <div class="container">
+      <h1>分账计算器</h1>
+      <button id="new-event-btn">新建事件</button>
+      <div id="event-container"></div>
+   </div>
+
+   <!-- Modal -->
+   <div id="modal" class="modal hidden">
+      <div class="modal-content">
+         <h2>新建事件</h2>
+         <label>事件名: <input type="text" id="event-name"></label>
+         <label>参与人员: 
+            <div id="participants">
+               <input type="text" class="participant">
+               <button id="add-participant">+</button>
+            </div>
+         </label>
+         <label>具体事件:
+            <div id="details">
+               <div class="detail-row">
+                  <select>
+                     <option value="transfer">Transfer</option>
+                     <option value="pay">Pay</option>
+                  </select>
+                  <input type="text" class="person-from" placeholder="Person From">
+                  <span class="arrow">-></span>
+                  <input type="text" class="person-to" placeholder="Person To">
+                  <input type="number" class="amount" placeholder="Amount">
+               </div>
+            </div>
+            <button id="add-detail">新增事件</button>
+         </label>
+         <div class="modal-actions">
+            <button id="confirm">确认</button>
+            <button id="cancel">取消</button>
+         </div>
+      </div>
+   </div>
+   <script src="/static/script.js" defer></script>
+</body>
+</html>
+

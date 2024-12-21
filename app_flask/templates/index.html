@@ -1,0 +1,135 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分账仙人</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>分账仙人<h1>
+
+    <div class="filter-container" id="filters">
+        <label for="payerFilter">过滤付款人</label>
+        <!-- <div class="dropdown" id="payerDropdown"> -->
+            <select id="payerFilter">
+                <option value="">全部</option>
+                <!-- Payers -->
+                {% for payer in payers %}
+                    <option value="{{ payer }}">{{ payer }}</option>
+                {% endfor %}
+            </select>
+        <!-- </div> -->
+
+        <label for="receiverFilter">过滤收款人</label>
+        <!-- <div class="dropdown" id="receiverDropdown"> -->
+            <select id="receiverFilter">
+                <option value="">全部</option>
+                <!-- receivers -->
+                {% for receiver in receivers %}
+                    <option value="{{ receiver }}">{{ receiver }}</option>
+                {% endfor %}
+            </select>
+        <!-- </div> -->
+
+        <button id="resetButton">清空筛选条件</button>
+    </div>
+
+    <button id="runButton">重新运行程序（更新结果）</button>
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('runButton').addEventListener('click', function() {
+            const payerFilter = document.getElementById('payerFilter').value;
+            const receiverFilter = document.getElementById('receiverFilter').value;
+
+            fetch(`/run_script?payer=${payerFilter}&receiver=${receiverFilter}`)
+                .then(response => response.json())
+                .then(data => {
+                    const result = data.data;
+                    const outputDiv = document.getElementById('output');
+                    
+                    let table = '<table>';
+                    table += '<thead><tr><th>需要付钱的</th><th>需要收钱的</th><th>转多少钱</th></tr></thead><tbody>';
+                    for (let sender in result) {
+                        for (let receiver in result[sender]) {
+                            const amount = result[sender][receiver];
+                            <!-- amount = parseFloat(amount).toFixed(2); -->
+
+                            if (amount !== 0 &&
+                                (payerFilter === '' || sender === payerFilter) &&
+                                (receiverFilter === '' || receiver === receiverFilter)) {
+                                table += `<tr><td>${sender}</td><td>${receiver}</td><td>${amount}</td></tr>`;
+                            }
+                        }
+                    }
+                    
+                    table += '</tbody></table>';
+                    outputDiv.innerHTML = table;
+                });
+        });
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            document.getElementById('payerFilter').value = '';
+            document.getElementById('receiverFilter').value = '';
+
+            fetch('/run_script')
+                .then(response => response.json())
+                .then(data => {
+                    const result = data.data;
+                    const outputDiv = document.getElementById('output');
+                    
+                    let table = '<table>';
+                    table += '<thead><tr><th>需要付钱的</th><th>需要收钱的</th><th>转多少钱</th></tr></thead><tbody>';
+                    
+                    for (let sender in result) {
+                        for (let receiver in result[sender]) {
+                            let amount = result[sender][receiver];
+
+                            if (!isNaN(amount) && amount !== 0) {
+                                table += `<tr><td>${sender}</td><td>${receiver}</td><td>${amount}</td></tr>`;
+                            }
+                        }
+                    }
+                    
+                    table += '</tbody></table>';
+                    outputDiv.innerHTML = table;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        <!-- document.getElementById('payerDropdown').addEventListener('mouseleave', function() { -->
+            <!-- document.getElementById('payerFilter').blur(); -->
+        <!-- }); -->
+
+        <!-- document.getElementById('receiverDropdown').addEventListener('mouseleave', function() { -->
+            <!-- document.getElementById('receiverFilter').blur(); -->
+        <!-- }); -->
+
+        <!-- let dropdowns = document.querySelectorAll('.dropdown'); -->
+
+        <!-- dropdowns.forEach(function(dropdown) { -->
+            <!-- let selectElement = dropdown.querySelector('select'); -->
+
+            <!-- dropdown.addEventListener('mouseenter', function() { -->
+                <!-- selectElement.style.opacity = '1'; -->
+                <!-- selectElement.style.visibility = 'visible'; -->
+            <!-- }); -->
+
+            <!-- dropdown.addEventListener('mouseleave', function() { -->
+                <!-- selectElement.style.opacity = '0'; -->
+                <!-- selectElement.style.visibility = 'hidden'; -->
+            <!-- }); -->
+        <!-- }); -->
+
+        const selects = document.querySelectorAll('select');
+
+        selects.forEach(select => {
+            select.addEventListener('change', function() {
+                select.blur();
+            });
+        });
+    </script>
+</body>
+</html>
